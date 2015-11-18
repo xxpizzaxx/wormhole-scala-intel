@@ -8,10 +8,12 @@
             {{#corps}}
                 <tr>
                     <td>
-                        <img src="https://image.eveonline.com/Corporation/{{corporationID}}_64.png" alt="Corporation logo of {{ corporationName }}"/>
+                        <a href="https://zkillboard.com/corporation/{{ corporationID }}/">
+                            <img src="https://image.eveonline.com/Corporation/{{corporationID}}_64.png" alt="Corporation logo of {{ corporationName }}"/>
+                        </a>
                     </td>
                     <td>
-                        <a href="https://zkillboard.com/corporation/{{ corporationID }}/">{{ corporationName }}</a>
+                        {{ corporationName }}
                     </td>
                     <td align="right">
                         {{ residencyScore }}
