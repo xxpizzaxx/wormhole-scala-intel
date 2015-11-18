@@ -49,7 +49,9 @@
                     NProgress.inc();
                     $("#results").prepend(res);
                     NProgress.done();
-                });
+                })
+                .error(function() { NProgress.done();});
+                ;
             });
         });
     </script>
