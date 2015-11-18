@@ -1,9 +1,54 @@
 @(message: String)
 
 @main("Pizza Wormhole Intel") {
+    <script type="text/template" id="residency-result">
+        <div class="jumbotron">
+            <h2>{{ system }}</h2>
+            <table>
+            {{#corps}}
+                <tr>
+                    <td>
+                        <img src="https://image.eveonline.com/Corporation/{{corporationID}}_64.png" alt="Corporation logo of {{ corporationName }}"/>
+                    </td>
+                    <td>
+                        <a href="https://zkillboard.com/corporation/{{ corporationID }}/">{{ corporationName }}</a>
+                    </td>
+                    <td align="right">
+                        {{ residencyScore }}
+                    </td>
+                </tr>
+            {{/corps}}
+            </table>
+        </div>
+    </script>
     <script>
         $(function() {
             $("#main-search").autocomplete({source: systems});
+        });
+        (function($) {
+            $.fn.onEnter = function(func) {
+                this.bind('keypress', function(e) {
+                    if (e.keyCode == 13) func.apply(this, [e]);
+                });
+                return this;
+            };
+        })(jQuery);
+        $( function () {
+            $("#main-search").onEnter( function() {
+                NProgress.start();
+                var system = $(this).val();
+                $.getJSON("api/residency/"+system, function(data) {
+                    NProgress.inc();
+                    console.log(data);
+                    var template = $("#residency-result").html();
+                    NProgress.inc();
+                    var res = Mustache.to_html(template, {system: system, corps: data.slice(0, 3)});
+                    console.log(res);
+                    NProgress.inc();
+                    $("#results").prepend(res);
+                    NProgress.done();
+                });
+            });
         });
     </script>
 
@@ -14,5 +59,7 @@
             <input id="main-search" placeholder="Wormhole ID" autofocus style="width: 100%" />
         </h3>
     </div>
+
+    <div id="results"></div>
 
 }
