@@ -1,0 +1,18 @@
+@(message: String)
+
+@main("Pizza Wormhole Intel") {
+    <script>
+        $(function() {
+            $("#main-search").autocomplete({source: systems});
+        });
+    </script>
+
+    <div class="jumbotron">
+        <h1 style="text-align: center">wormholes</h1>
+
+        <h3>
+            <input id="main-search" placeholder="Wormhole ID" autofocus style="width: 100%" />
+        </h3>
+    </div>
+
+}
